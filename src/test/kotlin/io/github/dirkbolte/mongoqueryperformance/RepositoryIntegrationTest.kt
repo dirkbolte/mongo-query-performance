@@ -5,7 +5,6 @@ import io.github.dirkbolte.mongoqueryperformance.repositories.TestEntityReposito
 import io.github.dirkbolte.mongoqueryperformance.repositories.entities.NestedEntity
 import io.github.dirkbolte.mongoqueryperformance.repositories.entities.TestEntity
 import org.apache.commons.lang3.RandomStringUtils
-import org.apache.commons.lang3.RandomUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.parallel.Execution
@@ -18,8 +17,6 @@ import org.springframework.test.context.DynamicPropertySource
 import org.testcontainers.containers.MongoDBContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import org.testcontainers.junit.jupiter.Container
-import kotlin.random.Random
-import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 
@@ -35,6 +32,7 @@ abstract class RepositoryIntegrationTest {
     companion object {
 
         private const val RUNS = 100
+        const val DOCUMENTS = 20_000
 
         @Container
         val mongoDB = MongoDBContainer("mongo:6").apply {
@@ -53,7 +51,7 @@ abstract class RepositoryIntegrationTest {
     @BeforeAll
     fun initializeDatabase() {
         initRepository.deleteAll()
-        repeat(20_000) {
+        repeat(DOCUMENTS) {
             initRepository.save(
                 TestEntity(
                     name = "name-${RandomStringUtils.randomAlphabetic(10)}",
