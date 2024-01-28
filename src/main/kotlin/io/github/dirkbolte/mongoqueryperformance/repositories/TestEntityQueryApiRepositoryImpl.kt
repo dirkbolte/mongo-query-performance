@@ -16,7 +16,7 @@ class TestEntityQueryApiRepositoryImpl(
     private val converter = CoreTestEntityConverter()
 
     override fun findAllWithQueryApi(): List<CoreTestEntity> {
-        val query = Query(Criteria()).apply {
+        val query = Query(Criteria.where("_id").ne(null)).apply {
             fields().include("_id", "name", "otherParam")
         }
         return mongoTemplate.find(query, Document::class.java, "testCollection").map(converter::convert)
@@ -26,7 +26,7 @@ class TestEntityQueryApiRepositoryImpl(
         return mongoClient
             .getDatabase("test")
             .getCollection("testCollection")
-            .find()
+            .find(Document.parse("""{ "_id": { ${"$"}ne: null } }"""))
             .projection(
                 Document.parse(
                     """

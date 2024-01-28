@@ -18,7 +18,7 @@ class TestEntityRepositoryTest : RepositoryIntegrationTest() {
 
     @Test
     fun `full entity`() {
-        measure("full entity") { assertThat(repository.findAll()).hasSize(DOCUMENTS) }
+        measure("full entity") { assertThat(repository.findAllCustom()).hasSize(DOCUMENTS) }
     }
 
     @Test
