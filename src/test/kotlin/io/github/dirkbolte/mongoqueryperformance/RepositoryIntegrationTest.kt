@@ -32,7 +32,7 @@ abstract class RepositoryIntegrationTest {
     companion object {
 
         private const val RUNS = 100
-        const val DOCUMENTS = 20_000
+        const val DOCUMENTS = 30_000
 
         @Container
         val mongoDB = MongoDBContainer("mongo:6").apply {
